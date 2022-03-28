@@ -13,10 +13,11 @@
 
     </head>
     <body>
-      <div class="container">
-       
-      <!--Trigger Modal-->
-        <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">Wanna Play?</button>
+      <div class="container-modal">
+
+
+      <!-- Trigger Modal -->
+        <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">Login</button> 
 
       <!-- Modal -->
       <div class="modal fade" id="myModal" role="dialog">
@@ -26,43 +27,47 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Hello! Sign up below</h4>
+            <h4 class="modal-title">Log in</h4>
           </div>
           <div class="modal-body">
-             <h3>Sign Up</h3>
-              <form id="signUp">
-                <input name="credentials[email]" type="text" placeholder="an@example.email">
-                <input name="credentials[password]" type="password" placeholder="enter password">
-                <input name="credentials[password_confirmation]" type="password" placeholder="re-enter password">
 
-                <button type="submit">Sign Up</button>
-              </form> 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                    <h3>Sign Up</h3>
+                    <form id="signUp">
+                      <input name="credentials[email]" type="text" placeholder="an@example.email">
+                      <input name="credentials[password]" type="password" placeholder="enter password">
+                      <input name="credentials[password_confirmation]" type="password" placeholder="re-enter password">
+                      <button type="submit">Sign Up</button>
+                      <br>
+                      
+                    </form>
+
+                    <h3>Sign In</h3>
+                    <form id="signIn">
+                      <input name="credentials[email]" type="text" placeholder="an@example.email">
+                      <input name="credentials[password]" type="password" placeholder="enter password">
+                      <button type="submit">Sign In</button>
+                    </form>
+                    <p id="sign-up-success"></p>
+                    <p id="sign-in-success"></p>
+
+                    
+                    <div class="modal-footer">
+                      <button id="newGame" type="button" class="btn btn-default" data-bs-dismiss="modal">Go to Game Board</button>
+                    </div>
+              </div>
           </div>
         </div>
-
         </div>
-        <h3>Sign In</h3>
-        <form id="signIn">
-          <input name="credentials[email]" type="text">
-          <input name="credentials[password]" type="password">
-          <button type="submit">Sign In</button>
-        </form>
-
-        <h3>Play a New Game</h3>
-        <form id="createGame">
-          <button type="submit">Play</button>
-        </form>
-
-
+   
+       
         <section id="auth-display"></section>
 
       <!--Game Container-->
   <div class="container" id="main">
     <span id="turn">Tic Tac Toe</span>
-  
+    <!-- <br>
+    <button type="submit" id="new-game">Play Game</button>
+    <br> -->
     <div class="box" style="border-left: 0; border-top: 0" id="box1"></div>
     <div class="box" style="border-top: 0" id="box2"></div>
     <div class="box" style="border-top: 0; border-right: 0" id="box3"></div>
@@ -73,11 +78,9 @@
     <div class="box" style="border-bottom: 0" id="box8"></div>
     <div class="box" style="border-right: 0; border-bottom: 0" id="box9"></div>
   </div>
-  
-  <button class="btn btn-rounded" id="playAgain">Play Again</button>
-
-  <button class="btn btn-rounded" id="signOut">Sign Out</button>
-
+  </div>
+    <button class="btn btn-rounded" id="playAgain">Play Again</button>
+    <button class="btn btn-rounded" id="signOut">Sign Out</button>
 </body>
 
 </html>
@@ -87,9 +90,30 @@
 
 
 
+<!-- Trigger Modal
+<button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">Login</button>
 
+Modal
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
 
+    <!-- Modal content-->
+    <!-- <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Hello! Sign up below</h4>
+      </div>
+      <div class="modal-body">
 
+        <h3>Sign Up</h3>
+        <form id="signUp">
+          <input name="credentials[email]" type="text" placeholder="an@example.email">
+          <input name="credentials[password]" type="password" placeholder="enter password">
+          <input name="credentials[password_confirmation]" type="password" placeholder="re-enter password">
+
+          <button type="submit">Sign Up</button> -->
+
+ 
 
 
 
