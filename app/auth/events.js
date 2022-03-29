@@ -1,7 +1,12 @@
+/* eslint-disable no-undef */
 'use strict'
 const getFormFields = require('../../lib/get-form-fields')
 const authApi = require('./api.js')
 const authUi = require('./ui.js')
+
+const onHide = () => {
+  $('#login-button').hide()
+}
 
 const onSignUp = (event) => {
   event.preventDefault()
@@ -49,13 +54,8 @@ const onSignOut = function () {
 const onCreateGame = function (event) {
   event.preventDefault()
 
-  // get data from form
-  const form = event.target
-  const data = getFormFields(form)
-  console.log(data)
-
   authApi
-    .createGame(data)
+    .createGame()
   // JavaScript Promises
   // if the request/response is successful, run this callback
     .then((response) => authUi.onCreateGameSuccess(response))
@@ -65,14 +65,10 @@ const onCreateGame = function (event) {
 
 const onUpdateGame = function (event) {
   event.preventDefault()
-
-  // get data from form
-  const form = event.target
-  const data = getFormFields(form)
-  console.log(data)
+  console.log(event)
 
   authApi
-    .updateGame(data)
+    .updateGame()
   // JavaScript Promises
   // if the request/response is successful, run this callback
     .then((response) => authUi.onUpdateGameSuccess(response))
@@ -80,91 +76,125 @@ const onUpdateGame = function (event) {
     .catch(() => authUi.onUpdateGameFailure())
 }
 
-const turn = document.getElementById('turn')
-const boxes = document.querySelectorAll('#main div')
-let X_or_O = 0
+// Game Flow Logic
+// 1. Track if a cell has been clicked - event handler
+// 2. Check if user checked an empty box - conditional
+// 3. If user checks already occupied box, nothing should be added.
+// 4. Update the game data for every move. - store data
+// 5. Check the score - has user won or it is a tie. - check current cell picks against winning conditions
+// 6. Display winner or declare a tie. - console.log
+// 7. Stop the game - user can no longer add to board.
+// 8. Give player option to play again or sign out.
 
-function selectWinnerBoxes (b1, b2, b3) {
-  b1.classList.add('win')
-  b2.classList.add('win')
-  b3.classList.add('win')
-  turn.innerHTML = b1.innerHTML + ' wins!'
-  turn.style.fontSize = '40px'
+// Create Required Variables and Functions
+// Step 1: Set up variables
+// 'player' is player. 'gameBoard' is the empty board represented as an empty array of 9 cells.
+// 'gameStanding' denotes the result of checking if there's a winner/loser or it's a tie.
+// 'continueGame' is a boolean, checks if game should continue or stop
+
+let currentPlayer = 'X'
+const gameStanding = document.querySelector('.game-standing')
+let continueGame = true
+let gameBoard = ['', '', '', '', '', '', '', '', '']
+
+// Variable for declaring winner, loser or tie
+
+const declareWin = () => currentPlayer + ' has won!'
+const declareTie = () => 'It is a tie!'
+const currentPlayerTurn = () => currentPlayer + '\'' + ' s turn!'
+
+// Function declarations
+
+// Display whose turn it is
+gameStanding.innerHTML = currentPlayerTurn()
+
+// Step 2: Create Functions
+
+// Check if cell has been clicked. If it's not clicked, game can continue
+const onCellClick = function (event) {
+  event.preventDefault()
+  console.log('cell clicked')
+  // store event handler data from user's click into 'clickedCell'
+  const clickedCell = event.target
+  const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'))
+
+  // Check if clicked cell is empty/been played or if 'continueGame' is false
+  if ((gameBoard[clickedCellIndex]) !== '' || !continueGame) {
+    return continueGame
+  }
 }
 
-function getWinner () {
-  const box1 = document.getElementById('box1')
-  const box2 = document.getElementById('box2')
-  const box3 = document.getElementById('box3')
-  const box4 = document.getElementById('box4')
-  const box5 = document.getElementById('box5')
-  const box6 = document.getElementById('box6')
-  const box7 = document.getElementById('box7')
-  const box8 = document.getElementById('box8')
-  const box9 = document.getElementById('box9')
-
-  if (
-    box1.innerHTML !== '' && box1.innerHTML === box2.innerHTML && box1.innerHTML === box3.innerHTML
-  ) { selectWinnerBoxes(box1, box2, box3) }
-
-  if (
-    box4.innerHTML !== '' && box4.innerHTML === box5.innerHTML && box4.innerHTML === box6.innerHTML
-  ) { selectWinnerBoxes(box4, box5, box6) }
-
-  if (
-    box7.innerHTML !== '' && box7.innerHTML === box8.innerHTML && box7.innerHTML === box9.innerHTML
-  ) { selectWinnerBoxes(box7, box8, box9) }
-
-  if (
-    box1.innerHTML !== '' && box1.innerHTML === box4.innerHTML && box1.innerHTML === box7.innerHTML
-  ) { selectWinnerBoxes(box1, box4, box7) }
-
-  if (
-    box2.innerHTML !== '' && box2.innerHTML === box5.innerHTML && box2.innerHTML === box8.innerHTML
-  ) { selectWinnerBoxes(box2, box5, box8) }
-
-  if (
-    box3.innerHTML !== '' && box3.innerHTML === box6.innerHTML && box3.innerHTML === box9.innerHTML
-  ) { selectWinnerBoxes(box3, box6, box9) }
-
-  if (
-    box1.innerHTML !== '' && box1.innerHTML === box5.innerHTML && box1.innerHTML === box9.innerHTML
-  ) { selectWinnerBoxes(box1, box5, box9) }
-
-  if (
-    box3.innerHTML !== '' && box3.innerHTML === box5.innerHTML && box3.innerHTML === box7.innerHTML
-  ) { selectWinnerBoxes(box3, box5, box7) }
+function playerMove (clickedCell, clickedCellIndex) {
+  gameBoard[clickedCellIndex] = currentPlayer
+  clickedCell.innerHTML = currentPlayer
 }
 
-for (let i = 0; i < boxes.length; i++) {
-  boxes[i].onclick = function () {
-    if (this.innerHTML !== 'X' && this.innerHTML !== 'O') {
-      if (X_or_O % 2 === 0) {
-        console.log(X_or_O)
-        this.innerHTML = 'X'
-        turn.innerHTML = 'O Turn Now'
-        getWinner()
-        X_or_O += 1
-      } else {
-        console.log(X_or_O)
-        this.innerHTML = 'O'
-        turn.innerHTML = 'X Turn Now'
-        getWinner()
-        X_or_O += 1
-      }
+// Create array of winning move combos 'winCombo'
+
+const winCombo = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6]
+]
+
+// Switch players from 'X' to 'O'
+function switchPlayer () {
+  currentPlayer = currentPlayer === 'X' ? 'O' : 'X'
+  gameStanding.innerHTML = currentPlayerTurn()
+}
+
+// Find winner using conditionals
+
+function findWinner () {
+  let roundWon = false
+  for (let i = 0; i <= 7; i++) {
+    // eslint-disable-next-line no-use-before-define
+    const winCombo = winCombo[i]
+    const a = gameBoard[winCondition[0]]
+    const b = gameBoard[winCondition[1]]
+    const c = gameBoard[winCondition[2]]
+    if (a === '' || b === '' || c === '') {
+      continue
+    }
+    if (a === b && b === c) {
+      roundWon = true
+      break
     }
   }
+
+  if (roundWon) {
+    gameStanding.innerHTML = declareWin()
+    continueGame = false
+    return
+  }
+  // check for tie
+  const tieRound = !gameBoard.includes('')
+  if (tieRound) {
+    gameStanding.innerHTML = declareTie()
+    continueGame = false
+    return
+  }
+
+  switchPlayer()
 }
 
-const onPlayAgain = function () {
-  for (let i = 0; i < boxes.length; i++) {
-    boxes[i].classList.remove('win')
-    boxes[i].innerHTML = ''
-    turn.innerHTML = 'Play'
-    turn.style.fontSize = '40px'
-  }
+// Reset board and player to 'X'
+function onPlayAgain () {
+  continueGame = true
+  currentPlayer = 'X'
+  gameBoard = ['', '', '', '', '', '', '', '', '']
+  gameStanding.innerHTML = currentPlayerTurn()
+  // eslint-disable-next-line no-return-assign
+  document.querySelectorAll('.cell').forEach(cell => cell.innerHTML = '')
 }
-document.getElementById('playAgain').addEventListener('click', onPlayAgain)
+
+document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', onCellClick))
+// document.querySelector('#reset-board').addEventListener('click', onPlayAgain)//
 
 module.exports = {
   onSignUp,
@@ -172,5 +202,8 @@ module.exports = {
   onSignOut,
   onCreateGame,
   onUpdateGame,
-  onPlayAgain
+  onPlayAgain,
+  switchPlayer,
+  findWinner,
+  onHide
 }
