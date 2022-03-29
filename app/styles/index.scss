@@ -1,8 +1,14 @@
 @import '~bootstrap/scss/bootstrap';
 
-
+body {
+	margin: 20px;
+	background-color:rgb(29, 53, 87);
+	color: rgb(241, 250, 238);
+	font-family: 'Rock Salt', cursive;
+}
 
 .container-modal {
+ 
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -13,15 +19,19 @@
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding: 10px;
 }
 
 /* Modal Content */
 .modal-content {
-  background-color: #fefefe;
+  background-color: rgb(168, 218, 220);
   margin: auto;
   padding: 20px;
-  border: 1px solid #888;
+  border: 1px solid rgb(241, 250, 238);
   width: 100%;
+}
+.modal-content .p {
+	text-align: center;
 }
 
 /* The Close Button */
@@ -39,6 +49,11 @@
   cursor: pointer;
 }
 
+.section .p {
+	text-align: center;
+	padding: 30px;
+}
+
 .game-container {
 	display: grid;
 	grid-template-columns: repeat(3, columns);
@@ -47,13 +62,17 @@
 }
 
 .game-title {
-	display: block;
+	// display: block;
 	text-align: center;
 	font-family: sans-serif;
-	font-size: 40px;
-	margin-bottom: 40px;
+	font-size: 45px;
+	margin-bottom: 30px;
 	padding: 20px;
+	font-family: 'Rock Salt', cursive;
 }
+
+
+
 .section {
 	text-align: center;
 }
@@ -72,11 +91,19 @@
 	text-align: center;
 	line-height: 100px; 
 	cursor: pointer;
+	font-family: 'Rock Salt', cursive;
+	background-color:rgb(241, 250, 238);
+}
+
+.game-standing {
+	text-align: center;
+	font-size: 40px;
 }
 
 .btn {
 	width: 200px;
 	font-weight: bold;
+	background-color: rgb(241, 250, 238); 
 	cursor: pointer;
 	font-size: 15px;
 	display: block;
@@ -84,4 +111,7 @@
 	-webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
 	-moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
 	box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
+}
+.game-container .btn cell:hover {
+	background-color: rgb(168, 218, 220);
 }
