@@ -1,80 +1,100 @@
+/* eslint-disable no-tabs */
+/* eslint-disable indent */
 /* eslint-disable no-undef */
 'use strict'
 const getFormFields = require('../../lib/get-form-fields')
 const authApi = require('./api.js')
 const authUi = require('./ui.js')
 
+// Switch players from 'X' to 'O'
+function switchPlayer () {
+	if (currentPlayer === 'X') {
+		currentPlayer = 'O'
+	} else {
+		currentPlayer = 'X'
+	}
+}
+
+const hideMain = () => {
+  $('#currentGame').hide()
+  $('#reset-board').hide()
+  $('#signOut').hide()
+}
 const onHide = () => {
-  $('#login-button').hide()
+	$('#login-button').hide()
+}
+
+const onShow = () => {
+  $('#createGame').show()
 }
 
 const onSignUp = (event) => {
-  event.preventDefault()
-  console.log('in event listener!!!!!')
+	event.preventDefault()
+	console.log('in event listener!!!!!')
 
-  // get data from form
+	// get data from form
 
-  const form = event.target
-  const data = getFormFields(form)
+	const form = event.target
+	const data = getFormFields(form)
 
-  // check the Network tab!
-  authApi
-    .signUp(data)
-  // JavaScript Promises
-  // if the request/response is successful, run this callback
-    .then(() => authUi.onSignUpSuccess())
-  // if the request/response has an error, run this callback
-    .catch(() => authUi.onSignUpFailure())
+	// check the Network tab!
+	authApi
+		.signUp(data)
+		// JavaScript Promises
+		// if the request/response is successful, run this callback
+		.then(() => authUi.onSignUpSuccess())
+		// if the request/response has an error, run this callback
+		.catch(() => authUi.onSignUpFailure())
 }
 
 const onSignIn = (event) => {
-  event.preventDefault()
+	event.preventDefault()
 
-  // get data from form
-  const form = event.target
-  const data = getFormFields(form)
-  console.log(data)
+	// get data from form
+	const form = event.target
+	const data = getFormFields(form)
+	console.log(data)
 
-  authApi
-    .signIn(data)
-  // JavaScript Promises
-  // if the request/response is successful, run this callback
-    .then((response) => authUi.onSignInSuccess(response))
-  // if the request/response has an error, run this callback
-    .catch(() => authUi.onSignInFailure())
+	authApi
+		.signIn(data)
+		// JavaScript Promises
+		// if the request/response is successful, run this callback
+		.then((response) => authUi.onSignInSuccess(response))
+		// if the request/response has an error, run this callback
+		.catch(() => authUi.onSignInFailure())
 }
 
 const onSignOut = function () {
-  authApi
-    .signOut()
-    .then(() => authUi.onSignOutSuccess())
-    .catch(() => authUi.onSignOutFailure())
+	authApi
+		.signOut()
+		.then(() => authUi.onSignOutSuccess())
+		.catch(() => authUi.onSignOutFailure())
 }
 
 const onCreateGame = function (event) {
-  event.preventDefault()
+	event.preventDefault()
 
-  authApi
-    .createGame()
-  // JavaScript Promises
-  // if the request/response is successful, run this callback
-    .then((response) => authUi.onCreateGameSuccess(response))
-  // if the request/response has an error, run this callback
-    .catch(() => authUi.onCreateGameFailure())
+	authApi
+		.createGame()
+		// JavaScript Promises
+		// if the request/response is successful, run this callback
+		.then((response) => authUi.onCreateGameSuccess(response))
+		// if the request/response has an error, run this callback
+		.catch(() => authUi.onCreateGameFailure())
 }
 
-const onUpdateGame = function (event) {
-  event.preventDefault()
-  console.log(event)
+// const hideThings = function (response) {
+//   let targetDiv = document.getElementById(response)
+//   if (targetDiv.style.display !== 'none') {
+//     targetDiv.style.display = 'none'
+//   } else {
+//     targetDiv.style.display = 'block'
+//   }
+// }
 
-  authApi
-    .updateGame()
-  // JavaScript Promises
-  // if the request/response is successful, run this callback
-    .then((response) => authUi.onUpdateGameSuccess(response))
-  // if the request/response has an error, run this callback
-    .catch(() => authUi.onUpdateGameFailure())
-}
+
+
+
 
 // Game Flow Logic
 // 1. Track if a cell has been clicked - event handler
@@ -89,121 +109,155 @@ const onUpdateGame = function (event) {
 // Create Required Variables and Functions
 // Step 1: Set up variables
 // 'player' is player. 'gameBoard' is the empty board represented as an empty array of 9 cells.
-// 'gameStanding' denotes the result of checking if there's a winner/loser or it's a tie.
+// 'gameStanding' denotes the current game status - if there's a winner/loser or it's a tie.
 // 'continueGame' is a boolean, checks if game should continue or stop
 
 let currentPlayer = 'X'
-const gameStanding = document.querySelector('.game-standing')
+// let $gameStanding = $('.game-standing')
 let continueGame = true
-let gameBoard = ['', '', '', '', '', '', '', '', '']
-
+let gameBoard = {
+	game: {
+		cells: ['', '', '', '', '', '', '', '', ''],
+		index: 0,
+		value: '',
+		over: false
+	}
+}
 // Variable for declaring winner, loser or tie
-
 const declareWin = () => currentPlayer + ' has won!'
 const declareTie = () => 'It is a tie!'
-const currentPlayerTurn = () => currentPlayer + '\'' + ' s turn!'
-
-// Function declarations
+const currentPlayerTurn = () => currentPlayer + "'" + ' s turn!'
 
 // Display whose turn it is
-gameStanding.innerHTML = currentPlayerTurn()
+$('.gameStanding').html(currentPlayerTurn())
 
 // Step 2: Create Functions
 
 // Check if cell has been clicked. If it's not clicked, game can continue
 const onCellClick = function (event) {
-  event.preventDefault()
-  console.log('cell clicked')
-  // store event handler data from user's click into 'clickedCell'
-  const clickedCell = event.target
-  const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'))
+	event.preventDefault()
+	console.log('cell clicked')
+	// store event handler data from user's click into 'clickedCell'
+	const clickedCell = event.target
+	const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'))
 
-  // Check if clicked cell is empty/been played or if 'continueGame' is false
-  if ((gameBoard[clickedCellIndex]) !== '' || !continueGame) {
-    return continueGame
-  }
+	if ($(this).is(':empty')) {
+		$(this).html(currentPlayer)
+		gameBoard.game.cells[clickedCellIndex] = currentPlayer
+		// gameBoard.game.cells[i] = clickedCellIndex
+	}
+
+	// store data in API
+	authApi
+		.updateGame(
+		clickedCellIndex,
+		gameBoard.game.cells[clickedCellIndex],
+		false
+		)
+		.then((response) => console.log(response))
+		.catch(() => authUi.onUpdateGameFailure())
+
+  gameBoard.game.value = currentPlayer
+  switchPlayer()
+	console.log(clickedCellIndex)
+
+	// display whose turn it is on page
+	$('.gameStanding').html(currentPlayerTurn())
+	// Check if clicked cell is empty/been played or if 'continueGame' is false
+	//   if (gameBoard[clickedCellIndex] !== '' || !continueGame) {
+	//     return continueGame
+	//   }
 }
 
-function playerMove (clickedCell, clickedCellIndex) {
-  gameBoard[clickedCellIndex] = currentPlayer
-  clickedCell.innerHTML = currentPlayer
-}
+// function playerMove (clickedCell, clickedCellIndex) {
+//   gameBoard[clickedCellIndex] = currentPlayer
+//   clickedCell.innerHTML = currentPlayer
+// }
 
 // Create array of winning move combos 'winCombo'
 
 const winCombo = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
+	[0, 1, 2],
+	[3, 4, 5],
+	[6, 7, 8],
+	[0, 3, 6],
+	[1, 4, 7],
+	[2, 5, 8],
+	[0, 4, 8],
+	[2, 4, 6]
 ]
-
-// Switch players from 'X' to 'O'
-function switchPlayer () {
-  currentPlayer = currentPlayer === 'X' ? 'O' : 'X'
-  gameStanding.innerHTML = currentPlayerTurn()
-}
 
 // Find winner using conditionals
 
 function findWinner () {
-  let roundWon = false
-  for (let i = 0; i <= 7; i++) {
-    // eslint-disable-next-line no-use-before-define
-    const winCombo = winCombo[i]
-    const a = gameBoard[winCondition[0]]
-    const b = gameBoard[winCondition[1]]
-    const c = gameBoard[winCondition[2]]
-    if (a === '' || b === '' || c === '') {
-      continue
-    }
-    if (a === b && b === c) {
-      roundWon = true
-      break
-    }
-  }
+	let roundWon = false
+	for (let i = 0; i <= 7; i++) {
+		const winCombo = winCombo[i]
+		const a = gameBoard[winCondition[0]]
+		const b = gameBoard[winCondition[1]]
+		const c = gameBoard[winCondition[2]]
+		if (a === '' || b === '' || c === '') {
+			continue
+		}
+		if (a === b && b === c) {
+			roundWon = true
+			break
+		}
+	}
 
-  if (roundWon) {
-    gameStanding.innerHTML = declareWin()
-    continueGame = false
-    return
-  }
-  // check for tie
-  const tieRound = !gameBoard.includes('')
-  if (tieRound) {
-    gameStanding.innerHTML = declareTie()
-    continueGame = false
-    return
-  }
+	if (roundWon) {
+		gameStanding.innerHTML = declareWin()
+		continueGame = false
+		return
+	}
+	// check for tie
+	const tieRound = !gameBoard.includes('')
+	if (tieRound) {
+		gameStanding.innerHTML = declareTie()
+		continueGame = false
+		return
+	}
 
-  switchPlayer()
+	switchPlayer()
+
+	// if 'continueGame' is false, then disable clicks to stop play
+	if (continueGame === false) {
+		document
+			.querySelectorAll('.cell')
+			.forEach((element) => element.removeEventListener('click', onCellClick))
+	}
+  // 'play 'again button' should display
+  $('#reset-board').show()
 }
 
 // Reset board and player to 'X'
 function onPlayAgain () {
-  continueGame = true
-  currentPlayer = 'X'
-  gameBoard = ['', '', '', '', '', '', '', '', '']
-  gameStanding.innerHTML = currentPlayerTurn()
-  // eslint-disable-next-line no-return-assign
-  document.querySelectorAll('.cell').forEach(cell => cell.innerHTML = '')
+	continueGame = true
+	currentPlayer = 'X'
+	gameBoard = {
+		game: {
+			cells: ['', '', '', '', '', '', '', '', ''],
+			index: 0,
+			value: '',
+			over: false
+		}
+	}
+	$('.gameStanding').html(currentPlayerTurn())
 }
 
-document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', onCellClick))
-// document.querySelector('#reset-board').addEventListener('click', onPlayAgain)//
+// document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', onCellClick))
+// document.querySelector('#reset-board').addEventListener('click', onPlayAgain)
 
 module.exports = {
-  onSignUp,
-  onSignIn,
-  onSignOut,
-  onCreateGame,
-  onUpdateGame,
-  onPlayAgain,
-  switchPlayer,
-  findWinner,
-  onHide
+	onSignUp,
+	onSignIn,
+	onSignOut,
+	onCreateGame,
+	onPlayAgain,
+	switchPlayer,
+	findWinner,
+	onHide,
+	onCellClick,
+  onShow,
+  hideMain
 }
