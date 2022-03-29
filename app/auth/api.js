@@ -1,5 +1,6 @@
 'use strict'
 const store = require('../store.js')
+const config = require('../config.js')
 
 const signUp = function (data) {
   console.log(store)
@@ -22,8 +23,8 @@ const signOut = function () {
     method: 'DELETE',
     url: config.apiUrl + '/sign-out',
     headers: {
-      Authorization: 'Bearer ' + store.user.token,
-    },
+      Authorization: 'Bearer ' + store.user.token
+    }
   })
 }
 
@@ -32,9 +33,9 @@ const createGame = function () {
     method: 'POST',
     url: config.apiUrl + '/games',
     headers: {
-      Authorization: 'Bearer ' + store.user.token,
+      Authorization: 'Bearer ' + store.user.token
     },
-    data: {},
+    data: {}
   })
 }
 
@@ -43,17 +44,17 @@ const updateGame = function (index, value, continueGame) {
     method: 'PATCH',
     url: config.apiUrl + '/games/' + store.game._id,
     headers: {
-      Authorization: 'Bearer ' + store.user.token,
+      Authorization: 'Bearer ' + store.user.token
     },
     data: {
       game: {
         cell: {
           index: index,
-          value: value,
+          value: value
         },
-        over: continueGame,
-      },
-    },
+        over: continueGame
+      }
+    }
   })
 }
 
