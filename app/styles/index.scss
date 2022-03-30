@@ -1,1 +1,138 @@
 @import '~bootstrap/scss/bootstrap';
+
+body {
+	
+	margin: 20px;
+	background-color:rgb(29, 53, 87);
+	color: rgb(241, 250, 238);
+	font-family: 'Rock Salt', cursive;
+}
+
+.welcome {
+	text-align: center;
+	font-size: 40px;
+}
+
+#auth-display {
+	display: block;
+	text-align: center;
+	font-size: 30px;
+}
+
+#auth-display .p {
+	text-align: center;
+	font-size: 30px;
+}
+
+.container-modal {
+ 
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding: 10px;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: rgb(168, 218, 220);
+  margin: auto;
+  padding: 20px;
+  border: 1px solid rgb(241, 250, 238);
+  width: 100%;
+  color: rgb(69, 123, 157);
+}
+.modal-content .p {
+	text-align: center;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+.section .p {
+	text-align: center;
+	padding: 30px;
+}
+
+.game-container {
+	
+	display: grid;
+	grid-template-columns: repeat(3, columns);
+	width: 306px;
+	margin: 50px auto;
+}
+
+.game-title {
+	// display: block;
+	text-align: center;
+	font-family: sans-serif;
+	font-size: 45px;
+	margin-bottom: 30px;
+	padding: 20px;
+	font-family: 'Rock Salt', cursive;
+}
+
+
+
+.section {
+	text-align: center;
+}
+
+.game-container .cell:hover {
+	background: rgb(174, 244, 255);
+	
+}
+
+.cell {
+	width: 100px;
+	height: 100px;
+	border: 1px solid #000;
+	transition: all .25s ease-in-out;
+	font-size: 75px;
+	text-align: center;
+	line-height: 100px; 
+	cursor: pointer;
+	font-family: 'Rock Salt', cursive;
+	background-color:rgb(241, 250, 238);
+	color: black;
+}
+
+.game-standing {
+	text-align: center;
+	font-size: 40px;
+}
+
+.btn {
+	width: 200px;
+	font-weight: bold;
+	background-color: rgb(241, 250, 238); 
+	cursor: pointer;
+	font-size: 15px;
+	display: block;
+	margin: 40px auto;
+	-webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
+}
+.game-container .btn cell:hover {
+	background-color: rgb(168, 218, 220);
+}

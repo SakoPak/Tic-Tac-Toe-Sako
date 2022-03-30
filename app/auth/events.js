@@ -1,176 +1,276 @@
+/* eslint-disable no-tabs */
+/* eslint-disable indent */
+/* eslint-disable no-undef */
 'use strict'
 const getFormFields = require('../../lib/get-form-fields')
 const authApi = require('./api.js')
 const authUi = require('./ui.js')
 
+
+// Switch players from 'X' to 'O'
+// function switchPlayer () {
+// 	if (currentPlayer === 'X') {
+// 		currentPlayer = 'O'
+// 	} else if (currentPlayer === 'O') {
+// 		currentPlayer = 'X'
+// 	}
+// }
+
+// // Variable for declaring winner, loser or tie
+// const declareWin = () => currentPlayer + ' has won!'
+// const declareTie = () => 'It is a tie!'
+function currentPlayerTurn () {
+  return currentPlayer + "'" + ' s turn!'
+}
+
+// Display whose turn it is
+$('.game-standing').html(currentPlayerTurn())
+
+// Create array of winning move combos 'winCombo'
+
+const winCombo = [
+	[0, 1, 2],
+	[3, 4, 5],
+	[6, 7, 8],
+	[0, 3, 6],
+	[1, 4, 7],
+	[2, 5, 8],
+	[0, 4, 8],
+	[2, 4, 6]
+]
+
+function switchPlayer () {
+  currentPlayer = currentPlayer === 'X' ? 'O' : 'X'
+  $('.game-standing').html(currentPlayerTurn())
+}
+
+const hideMain = () => {
+  $('#currentGame').hide()
+  $('#reset-board').hide()
+  $('#signOut').hide()
+}
+const onHide = () => {
+	$('#login-button').hide()
+}
+
+const onShow = () => {
+  $('#createGame').show()
+  $('.game-standing').show()
+}
+
 const onSignUp = (event) => {
-  event.preventDefault()
-  console.log('in event listener!!!!!')
+	event.preventDefault()
+	console.log('in event listener!!!!!')
 
-  // get data from form
+	// get data from form
 
-  const form = event.target
-  const data = getFormFields(form)
+	const form = event.target
+	const data = getFormFields(form)
 
-  // check the Network tab!
-  authApi
-    .signUp(data)
-  // JavaScript Promises
-  // if the request/response is successful, run this callback
-    .then(() => authUi.onSignUpSuccess())
-  // if the request/response has an error, run this callback
-    .catch(() => authUi.onSignUpFailure())
+	// check the Network tab!
+	authApi
+		.signUp(data)
+		// JavaScript Promises
+		// if the request/response is successful, run this callback
+		.then(() => authUi.onSignUpSuccess())
+		// if the request/response has an error, run this callback
+		.catch(() => authUi.onSignUpFailure())
 }
 
 const onSignIn = (event) => {
-  event.preventDefault()
+	event.preventDefault()
 
-  // get data from form
-  const form = event.target
-  const data = getFormFields(form)
-  console.log(data)
+	// get data from form
+	const form = event.target
+	const data = getFormFields(form)
+	console.log(data)
 
-  authApi
-    .signIn(data)
-  // JavaScript Promises
-  // if the request/response is successful, run this callback
-    .then((response) => authUi.onSignInSuccess(response))
-  // if the request/response has an error, run this callback
-    .catch(() => authUi.onSignInFailure())
+	authApi
+		.signIn(data)
+		// JavaScript Promises
+		// if the request/response is successful, run this callback
+		.then((response) => authUi.onSignInSuccess(response))
+		// if the request/response has an error, run this callback
+		.catch(() => authUi.onSignInFailure())
 }
 
 const onSignOut = function () {
-  authApi
-    .signOut()
-    .then(() => authUi.onSignOutSuccess())
-    .catch(() => authUi.onSignOutFailure())
+	authApi
+		.signOut()
+		.then(() => authUi.onSignOutSuccess())
+		.catch(() => authUi.onSignOutFailure())
 }
 
 const onCreateGame = function (event) {
-  event.preventDefault()
-
-  // get data from form
-  const form = event.target
-  const data = getFormFields(form)
-  console.log(data)
-
-  authApi
-    .createGame(data)
-  // JavaScript Promises
-  // if the request/response is successful, run this callback
-    .then((response) => authUi.onCreateGameSuccess(response))
-  // if the request/response has an error, run this callback
-    .catch(() => authUi.onCreateGameFailure())
+	event.preventDefault()
+	gameOver = false
+	currentPlayer = 'X'
+	gameBoard = {
+		game: {
+			cells: ['', '', '', '', '', '', '', '', ''],
+			index: 0,
+			value: '',
+			over: false
+		}
+	}
+	authApi
+		.createGame()
+		.then((response) => authUi.onCreateGameSuccess(response))
+		// if the request/response has an error, run this callback
+		.catch(() => authUi.onCreateGameFailure())
+  
+  findWinner()
+  switchPlayer()
 }
 
-const onUpdateGame = function (event) {
-  event.preventDefault()
+switchPlayer()
 
-  // get data from form
-  const form = event.target
-  const data = getFormFields(form)
-  console.log(data)
+// Game Flow Logic
+// 1. Track if a cell has been clicked - event handler
+// 2. Check if user checked an empty box - conditional
+// 3. If user checks already occupied box, nothing should be added.
+// 4. Update the game data for every move. - store data
+// 5. Check the score - has user won or it is a tie. - check current cell picks against winning conditions
+// 6. Display winner or declare a tie. - console.log
+// 7. Stop the game - user can no longer add to board.
+// 8. Give player option to play again or sign out.
 
-  authApi
-    .updateGame(data)
-  // JavaScript Promises
-  // if the request/response is successful, run this callback
-    .then((response) => authUi.onUpdateGameSuccess(response))
-  // if the request/response has an error, run this callback
-    .catch(() => authUi.onUpdateGameFailure())
+// Create Required Variables and Functions
+// Step 1: Set up variables
+// 'player' is player. 'gameBoard' is the empty board represented as an empty array of 9 cells.
+// 'gameStanding' denotes the current game status - if there's a winner/loser or it's a tie.
+// 'continueGame' is a boolean, checks if game should continue or stop
+
+let currentPlayer = 'X'
+// let $gameStanding = $('.game-standing')
+let gameOver = false
+// eslint-disable-next-line prefer-const
+let winningRound = false
+let gameBoard = {
+	game: {
+		cells: ['', '', '', '', '', '', '', '', ''],
+		index: 0,
+		value: '',
+		over: false
+	}
 }
+// removed the variable from this line
+// Step 2: Create Functions
 
-const turn = document.getElementById('turn')
-const boxes = document.querySelectorAll('#main div')
-let X_or_O = 0
+// Check if cell has been clicked. If it's not clicked, game can continue
+const onCellClick = function (event) {
+	event.preventDefault()
+	console.log('cell clicked')
+	// store event handler data from user's click into 'clickedCell'
+	const clickedCell = event.target
+	const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'))
 
-function selectWinnerBoxes (b1, b2, b3) {
-  b1.classList.add('win')
-  b2.classList.add('win')
-  b3.classList.add('win')
-  turn.innerHTML = b1.innerHTML + ' wins!'
-  turn.style.fontSize = '40px'
+	if ($(this).is(':empty')) {
+		$(this).html(currentPlayer)
+		gameBoard.game.cells[clickedCellIndex] = currentPlayer
+	}
+
+	// store data in API
+	authApi
+		.updateGame(
+		clickedCellIndex,
+		gameBoard.game.cells[clickedCellIndex],
+		false
+		)
+		.then((response) => console.log(response))
+		.catch(() => authUi.onUpdateGameFailure())
+
+    // const onCellPlayed = function (clickedCell, clickedCellIndex) {
+		// 	gameBoard.game.cells[clickedCellIndex] = currentPlayer
+		// 	$('.game-standing').html(currentPlayer)
+		// }
+  // gameBoard.game.value = currentPlayer
+	console.log(clickedCellIndex)
+  $('.game-standing').html(currentPlayerTurn())
+  findWinner(currentPlayer)
 }
+// Find winner using conditionals
 
-function getWinner () {
-  const box1 = document.getElementById('box1')
-  const box2 = document.getElementById('box2')
-  const box3 = document.getElementById('box3')
-  const box4 = document.getElementById('box4')
-  const box5 = document.getElementById('box5')
-  const box6 = document.getElementById('box6')
-  const box7 = document.getElementById('box7')
-  const box8 = document.getElementById('box8')
-  const box9 = document.getElementById('box9')
-
-  if (
-    box1.innerHTML !== '' && box1.innerHTML === box2.innerHTML && box1.innerHTML === box3.innerHTML
-  ) { selectWinnerBoxes(box1, box2, box3) }
-
-  if (
-    box4.innerHTML !== '' && box4.innerHTML === box5.innerHTML && box4.innerHTML === box6.innerHTML
-  ) { selectWinnerBoxes(box4, box5, box6) }
-
-  if (
-    box7.innerHTML !== '' && box7.innerHTML === box8.innerHTML && box7.innerHTML === box9.innerHTML
-  ) { selectWinnerBoxes(box7, box8, box9) }
-
-  if (
-    box1.innerHTML !== '' && box1.innerHTML === box4.innerHTML && box1.innerHTML === box7.innerHTML
-  ) { selectWinnerBoxes(box1, box4, box7) }
-
-  if (
-    box2.innerHTML !== '' && box2.innerHTML === box5.innerHTML && box2.innerHTML === box8.innerHTML
-  ) { selectWinnerBoxes(box2, box5, box8) }
-
-  if (
-    box3.innerHTML !== '' && box3.innerHTML === box6.innerHTML && box3.innerHTML === box9.innerHTML
-  ) { selectWinnerBoxes(box3, box6, box9) }
-
-  if (
-    box1.innerHTML !== '' && box1.innerHTML === box5.innerHTML && box1.innerHTML === box9.innerHTML
-  ) { selectWinnerBoxes(box1, box5, box9) }
-
-  if (
-    box3.innerHTML !== '' && box3.innerHTML === box5.innerHTML && box3.innerHTML === box7.innerHTML
-  ) { selectWinnerBoxes(box3, box5, box7) }
-}
-
-for (let i = 0; i < boxes.length; i++) {
-  boxes[i].onclick = function () {
-    if (this.innerHTML !== 'X' && this.innerHTML !== 'O') {
-      if (X_or_O % 2 === 0) {
-        console.log(X_or_O)
-        this.innerHTML = 'X'
-        turn.innerHTML = 'O Turn Now'
-        getWinner()
-        X_or_O += 1
-      } else {
-        console.log(X_or_O)
-        this.innerHTML = 'O'
-        turn.innerHTML = 'X Turn Now'
-        getWinner()
-        X_or_O += 1
+function findWinner () {
+  let winningRound = false
+  console.log('enter win function')
+	for (let i = 0; i <= 7; i++) {
+		const winCondition = winCombo[i]
+		const a = gameBoard.game.cells[winCondition[0]]
+		const b = gameBoard.game.cells[winCondition[1]]
+		const c = gameBoard.game.cells[winCondition[2]]
+		if (a === '' || b === '' || c === '') {
+			continue
+		}
+		if (a === b && b === c && a === 'O' && b === 'O' && c === 'O') {
+			winningRound = true
+      authUi.ifOWins()
+      gameOver = true
+			authUi.gameOver()
+      console.log('O is winner!')
+      // authUi.onPlayAgain()
+    } else if
+      (a === b && b === c && a === 'X' && b === 'X' && c === 'X') {
+        // eslint-disable-next-line no-unused-vars
+        winningRound = true
+        authUi.ifXWins()
+        gameOver = true
+        authUi.gameOver()
+        console.log('X is winner!')
+        // authUi.onPlayAgain() //
       }
+      break
     }
-  }
+	}
+  //  authUi.onPlayAgain()
+
+	if (!gameBoard.game.cells.includes('')) {
+    console.log('enter tie function')
+    $('.game-standing').html(declareTie())
+		// eslint-disable-next-line no-unused-vars
+		gameOver = true
+    authUi.ifTie()
+    authUi.gameOver()
+	}
+  // authUi.onPlayAgain()
+
+	// if 'gameOver' is true, then disable clicks to stop play
+
+// Reset board and player to 'X'
+function onPlayAgain (event) {
+  event.preventDefault()
+  $('.cell').on('click', onCellClick)
+	gameOver = false
+	currentPlayer = 'X'
+	gameBoard = {
+		game: {
+			cells: ['', '', '', '', '', '', '', '', ''],
+			index: 0,
+			value: '',
+			over: false
+		}
+	}
+  authApi
+		.createGame()
+		.then((response) => authUi.onCreateGameSuccess(response))
+		// if the request/response has an error, run this callback
+		.catch(() => authUi.onCreateGameFailure())
+	$('.game-standing').html(currentPlayerTurn())
 }
 
-const onPlayAgain = function () {
-  for (let i = 0; i < boxes.length; i++) {
-    boxes[i].classList.remove('win')
-    boxes[i].innerHTML = ''
-    turn.innerHTML = 'Play'
-    turn.style.fontSize = '40px'
-  }
-}
-document.getElementById('playAgain').addEventListener('click', onPlayAgain)
+// document.querySelectorAll('.cell').forEach(cell => cell.addEventListener('click', onCellClick))
+// document.querySelector('#reset-board').addEventListener('click', onPlayAgain)
 
 module.exports = {
-  onSignUp,
-  onSignIn,
-  onSignOut,
-  onCreateGame,
-  onUpdateGame,
-  onPlayAgain
+	onSignUp,
+	onSignIn,
+	onSignOut,
+	onCreateGame,
+	onPlayAgain,
+	switchPlayer,
+	findWinner,
+	onHide,
+	onCellClick,
+	onShow,
+	hideMain
 }
