@@ -1,6 +1,6 @@
 #!/bin/bash
 
-API="https://tic-tac-toe-api-development.herokuapp.com"
+API="https://tic-tac-toe-api-production.herokuapp.com"
 URL_PATH="/change-password"
 
 curl "${API}${URL_PATH}/" \
