@@ -1,10 +1,27 @@
 @import '~bootstrap/scss/bootstrap';
 
 body {
+	
 	margin: 20px;
 	background-color:rgb(29, 53, 87);
 	color: rgb(241, 250, 238);
 	font-family: 'Rock Salt', cursive;
+}
+
+.welcome {
+	text-align: center;
+	font-size: 40px;
+}
+
+#auth-display {
+	display: block;
+	text-align: center;
+	font-size: 30px;
+}
+
+#auth-display .p {
+	text-align: center;
+	font-size: 30px;
 }
 
 .container-modal {
@@ -29,6 +46,7 @@ body {
   padding: 20px;
   border: 1px solid rgb(241, 250, 238);
   width: 100%;
+  color: rgb(69, 123, 157);
 }
 .modal-content .p {
 	text-align: center;
@@ -49,12 +67,14 @@ body {
   cursor: pointer;
 }
 
+
 .section .p {
 	text-align: center;
 	padding: 30px;
 }
 
 .game-container {
+	
 	display: grid;
 	grid-template-columns: repeat(3, columns);
 	width: 306px;
@@ -79,7 +99,7 @@ body {
 
 .game-container .cell:hover {
 	background: rgb(174, 244, 255);
-	color: rgb(108, 108, 108);
+	
 }
 
 .cell {
@@ -93,6 +113,7 @@ body {
 	cursor: pointer;
 	font-family: 'Rock Salt', cursive;
 	background-color:rgb(241, 250, 238);
+	color: black;
 }
 
 .game-standing {
