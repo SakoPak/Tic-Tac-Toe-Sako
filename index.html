@@ -11,11 +11,14 @@
       <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
       <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
 
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
     </head>
     <body>
      
         <!--Trigger Modal-->
-        <button type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">Sign In</button>
+        <button id="login-button" type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">Sign In</button>
       
         <!-- Modal -->
   
@@ -48,29 +51,22 @@
                   <p id="sign-in-success"></p>
                 </form>
 
-                <form id="createGame">
-                  <button type="submit">Enter Game</button>
-                </form>
-
+              
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+                <button id="createGame" type="button" class="btn btn-default" data-bs-dismiss="modal">Enter Game</button>
               </div>
               </div>
             </div>  
           </div>
           
-      
-      
-          <section id="auth-display"></section>
-
 
   <!--Game Container-->
 <section>
  
-
-  <div class="game-container" id="main">
-    <div class="game-title">Tic Tac Toe</div>
+  <div class="game-title">Tic Tac Toe</div>
+  <div class="game-container" id="currentGame">
+    
     <div class="row">
       <div data-cell-index="0" class="col-md-4 col-lg-4 cell"></div>
       <div data-cell-index="1" class="col-md-4 col-lg-4 cell"></div>
@@ -83,10 +79,10 @@
       <div data-cell-index="8" class="col-md-4 col-lg-4 cell"></div>
     </div>
   </div>
-  
-    <h2 class="game-standing"></h2>
+    <p class="welcome">Let's Play!</p>
+    <div class="game-standing"></div>
+    <section id="auth-display"></section>
     <button class="btn btn-rounded" id="reset-board">Play Again</button>
-
     <button class="btn btn-rounded" id="signOut">Sign Out</button>
   </section>
 
