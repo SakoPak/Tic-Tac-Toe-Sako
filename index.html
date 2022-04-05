@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Example</title>
+      <title>Tic Tac Toe</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
 
       <!-- Do not add `link` tags-->
@@ -36,9 +36,9 @@
               <div class="modal-body">
                 <h3>Sign Up</h3>
                 <form id="signUp">
-                  <input name="credentials[email]" type="text" placeholder="an@example.email">
-                  <input name="credentials[password]" type="password" placeholder="enter password">
-                  <input name="credentials[password_confirmation]" type="password" placeholder="re-enter password">
+                  <input class="sign-up-font" name="credentials[email]" type="text" placeholder="an@example.email">
+                  <input class="sign-up-font" name="credentials[password]" type="password" placeholder="enter password">
+                  <input class="sign-up-font" name="credentials[password_confirmation]" type="password" placeholder="re-enter password">
       
                   <button type="submit">Sign Up</button>
                   <p id="sign-up-success"></p>
@@ -46,8 +46,8 @@
 
                 <h3>Sign In</h3>
                 <form id="signIn">
-                  <input name="credentials[email]" type="text">
-                  <input name="credentials[password]" type="password">
+                  <input class="sign-up-font" name="credentials[email]" type="text">
+                  <input class="sign-up-font" name="credentials[password]" type="password">
                   <button type="submit">Sign In</button>
                   <p id="sign-in-success"></p>
                 </form>
@@ -81,8 +81,9 @@
     </div>
   </div>
     <p class="welcome">Let's Play!</p>
-    <div class="game-standing"></div>
+    <p class="game-standing"></p>
     <section id="auth-display"></section>
+    <section id="play-again-display"></section>
     <button class="btn btn-rounded" id="reset-board">Play Again</button>
     <button class="btn btn-rounded" id="signOut">Sign Out</button>
   </section>
