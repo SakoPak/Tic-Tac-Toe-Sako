@@ -34,6 +34,7 @@ const onSignOutSuccess = function () {
   $('#currentGame').hide()
   $('#reset-board').hide()
   $('#login-button').show()
+  $('.cell').on('click', authEvents.onCellClick)
 }
 
 const onSignOutFailure = function () {
@@ -42,9 +43,8 @@ const onSignOutFailure = function () {
 
 const onCreateGameSuccess = function (response) {
   $('.cell').on('click', authEvents.onCellClick)
-  $('.cell').on('click', authEvents.switchPlayer)
+  $('#auth-display').show()
   $('#auth-display').html('<p>Begin playing! You are X.</p>')
-  console.log(response)
   store.game = response.game
   $('#sign-in-success').hide()
   $('#currentGame').show()
@@ -52,8 +52,6 @@ const onCreateGameSuccess = function (response) {
   $('#reset-board').show()
   $('.cell').html('')
   $('.welcome').hide()
-  $('.cell').on('click', authEvents.onCellClick)
-  $('.cell').on('click', authEvents.switchPlayer)
 }
 
 const onCreateGameFailure = function () {
@@ -62,17 +60,10 @@ const onCreateGameFailure = function () {
   $('form').trigger('reset')
 }
 
-// retrieving data every time user makes a new move
-const gameArray = ['', '', '', '', '', '', '', '', '']
-const onUpdateGame = function (index, value, gameOver) {
-  gameArray[index] = index // 'cell'
-  store.currentPlayer = value // 'X' or 'O'
-  store.gameOver = gameOver // boolean
-}
 const onUpdateGameSuccess = function () {
   $('form').trigger('reset')
   $('.cell').on('click', authEvents.onCellClick)
-  $('.game-standing').show()
+  $('#auth-display').show()
 }
 
 const onUpdateGameFailure = function () {
@@ -82,18 +73,15 @@ const onUpdateGameFailure = function () {
 }
 
 const onPlayAgain = function () {
-  $('#auth-display').show()
-  $('#auth-display').html('<p>Glad you had fun! Let`s` play again!</p>')
+  // $('#auth-display').hide()
+  $('#play-again-display').show()
+  $('#play-again-display').html('<p>Glad you had fun! Let`s` play again!</p>')
   $('.cell').on('click', authEvents.onCellClick)
-  $('.cell').on('click', authEvents.switchPlayer)
-  $('form').trigger('reset')
-  // $('#login-button').show()
-  $('.welcome').show()
-  $('.cell').html('')
+  // $('.cell').html('')
 }
 
 const findWinner = function () {
-  $('.game-standing').show()
+  $('#auth-display').show()
 }
 
 const ifOWins = function () {
@@ -102,7 +90,7 @@ const ifOWins = function () {
 }
 
 const ifXWins = function () {
-  $('#auth-display').show()
+  // $('#auth-display').show()
   $('#auth-display').html('<p>X is the winner!</p>')
 }
 
@@ -112,8 +100,15 @@ const ifTie = function () {
 }
 
 const gameOver = function () {
-  $('.cell').off('click', authEvents.onCellClick)
-  $('#reset-board').show()
+  $('.cell').off()
+  // $('#reset-board').show()
+}
+
+// Create function that searches array if it's full or not
+// will help determine tie
+const checkIfNull = function (gameBoard) {
+  gameBoard.every(element => element === null)
+  return true
 }
 
 module.exports = {
@@ -125,7 +120,6 @@ module.exports = {
   onSignOutFailure,
   onCreateGameSuccess,
   onCreateGameFailure,
-  onUpdateGame,
   onUpdateGameFailure,
   onPlayAgain,
   onUpdateGameSuccess,
@@ -133,6 +127,6 @@ module.exports = {
   ifOWins,
   ifXWins,
   gameOver,
-  ifTie
-
+  ifTie,
+  checkIfNull
 }
