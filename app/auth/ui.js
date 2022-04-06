@@ -43,6 +43,7 @@ const onSignOutFailure = function () {
 
 const onCreateGameSuccess = function (response) {
   $('.cell').on('click', authEvents.onCellClick)
+  $('#turn-display').hide()
   $('#auth-display').show()
   $('#auth-display').html('<p>Begin playing! You are X.</p>')
   store.game = response.game
@@ -61,9 +62,9 @@ const onCreateGameFailure = function () {
 }
 
 const onUpdateGameSuccess = function () {
+  $('#turn-display').show()
   $('form').trigger('reset')
   $('.cell').on('click', authEvents.onCellClick)
-  $('#auth-display').show()
 }
 
 const onUpdateGameFailure = function () {
@@ -73,42 +74,42 @@ const onUpdateGameFailure = function () {
 }
 
 const onPlayAgain = function () {
-  // $('#auth-display').hide()
-  $('#play-again-display').show()
-  $('#play-again-display').html('<p>Glad you had fun! Let`s` play again!</p>')
+  $('#auth-display').show()
+  $('#auth-display').html('<p>Glad you had fun! Let`s` play again!</p>')
   $('.cell').on('click', authEvents.onCellClick)
-  // $('.cell').html('')
 }
 
 const findWinner = function () {
+  $('#turn-display').hide()
   $('#auth-display').show()
 }
 
 const ifOWins = function () {
+  $('#turn-display').hide()
   $('#auth-display').show()
   $('#auth-display').html('<p>O is the winner!</p>')
 }
 
 const ifXWins = function () {
-  // $('#auth-display').show()
+  $('#turn-display').hide()
+  $('#auth-display').show()
   $('#auth-display').html('<p>X is the winner!</p>')
 }
 
 const ifTie = function () {
+  $('#turn-display').hide()
   $('#auth-display').show()
   $('#auth-display').html('<p>It is a tie!</p>')
 }
 
 const gameOver = function () {
   $('.cell').off()
-  // $('#reset-board').show()
 }
 
-// Create function that searches array if it's full or not
-// will help determine tie
-const checkIfNull = function (gameBoard) {
-  gameBoard.every(element => element === null)
-  return true
+const checkIfTie = function (gameBoard) {
+  if (!gameBoard.includes('')) {
+    return true
+  }
 }
 
 module.exports = {
@@ -128,5 +129,5 @@ module.exports = {
   ifXWins,
   gameOver,
   ifTie,
-  checkIfNull
+  checkIfTie
 }
