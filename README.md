@@ -15,23 +15,22 @@ Welcome to a new spin on a retro game - Tic Tac Toe!
 5. Best part is, you never run out of napkin. Play to your heart's content and click 'Play Again'.
 
 
-## Installation
-
-### Playing Online
- To play the deployed version of this game, click <a href="https://sakopak.github.io/Tic-Tac-Toe-Sako/" target="_blank">here!</a>
+## Playing Online
+ To play the deployed version of this game, click <a href="https://sakopak.github.io/Tic-Tac-Toe-Sako/" target="_blank">here!</a>  
 
 
-## Planning
 
-### Wireframe
+## Wireframe
 
 You can view the iterations of my wireframes here:
+
 <a href="https://imgur.com/ZGscVPM" target="_blank">Wireframe 1</a>
 <a href="https://imgur.com/vtl6mnm" target="_blank">Wireframe 2</a>
-<a href="https://imgur.com/RSiNXHw" target="_blank">Wireframe 3</a>
+<a href="https://imgur.com/RSiNXHw" target="_blank">Wireframe 3</a>  
 
 
-### User Stories    
+
+## User Stories    
 
  - User will sign up for game.
  - User will sign in for game.
@@ -39,23 +38,25 @@ You can view the iterations of my wireframes here:
  - User will see who the Winner is.
  - User will get the option to play again.
  - User will get the option to sign out.
- - User will see clear description of game, understand how to play and have fun!
+ - User will see clear description of game, understand how to play and have fun!  
+  
 
-### Tools Used
+## Tools Used
 
 - Javascript
 - HTML
 - CSS
-- API
-
-
+- jQuery
+  
+  
 
 ## About Me
 
 Hi, I'm Sako Pak, a former photographer turned software engineer.
 I love the intersection of where art and tech collide and am currently studying full time at General Assembly's Software Engineering Immersive, learning how to build beautiful experiences and powerful programs through the magic of a machine.
 
-Thank you for looking at my work!
+Thank you for looking at my work!  
+
 
 ## Find me at:
 - <a href="https://www.linkedin.com/in/sako-pak/" target="_blank">LinkedIn</a>
