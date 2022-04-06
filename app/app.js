@@ -6,9 +6,8 @@ const authEvents = require('./auth/events.js')
 // require('./example')
 
 $(() => {
-  // $('#mainPage').hide()
   $('#auth-display').hide()
-  $('.game-standing').hide()
+  $('#turn-display').hide()
   $('#currentGame').hide()
   $('#signOut').hide()
   $('#reset-board').hide()
