@@ -11,8 +11,6 @@ function currentPlayerTurn () {
   return currentPlayer + "'" + ' s turn!'
 }
 
-// Create array of winning move combos 'winCombo'
-
 const winCombo = [
 	[0, 1, 2],
 	[3, 4, 5],
@@ -37,10 +35,9 @@ let gameBoard = {
 	}
 }
 
-// Switch Players and display whose turn it is
 function switchPlayer () {
   currentPlayer = currentPlayer === 'X' ? 'O' : 'X'
- $('#auth-display').html(currentPlayerTurn)
+ $('#turn-display').html(currentPlayerTurn)
 }
 
 const hideMain = () => {
@@ -54,52 +51,37 @@ const onHide = () => {
 
 const onShow = () => {
   $('#createGame').show()
-  $('.game-standing').show()
+  $('#turn-display').show()
 }
 
 const onSignUp = (event) => {
 	event.preventDefault()
-	console.log('in event listener!!!!!')
-
-	// get data from form
-
 	const form = event.target
 	const data = getFormFields(form)
-
-	// check the Network tab!
 	authApi
 		.signUp(data)
-		// JavaScript Promises
-		// if the request/response is successful, run this callback
 		.then(() => authUi.onSignUpSuccess())
-		// if the request/response has an error, run this callback
 		.catch(() => authUi.onSignUpFailure())
 }
 
 const onSignIn = (event) => {
 	event.preventDefault()
-
-	// get data from form
 	const form = event.target
 	const data = getFormFields(form)
 	console.log(data)
 
 	authApi
 		.signIn(data)
-		// JavaScript Promises
-		// if the request/response is successful, run this callback
 		.then((response) => authUi.onSignInSuccess(response))
-		// if the request/response has an error, run this callback
 		.catch(() => authUi.onSignInFailure())
 }
 
-// retrieving data every time user makes a new move
 const gameArray = ['', '', '', '', '', '', '', '', '']
 
 function onUpdateGame (index, value, gameOver) {
-	gameArray[index] = index // 'cell'
-	store.currentPlayer = value // 'X' or 'O'
-	store.gameOver = gameOver // boolean
+	gameArray[index] = index
+	store.currentPlayer = value
+	store.gameOver = gameOver
 
 	findWinner(store.currentPlayer)
 }
@@ -126,23 +108,14 @@ const onCreateGame = function (event) {
 	authApi
 		.createGame()
 		.then((response) => authUi.onCreateGameSuccess(response))
-		// if the request/response has an error, run this callback
 		.catch(() => authUi.onCreateGameFailure())
-		// $('.cell').on('click', switchPlayer)
-		console.log('Going from onCreateGame to findWinner function.')
-findWinner()
+	console.log('Going from onCreateGame to findWinner function.')
+	findWinner()
 }
 
-// switchPlayer()
-
-// removed the variable from this line
-// Step 2: Create Functions
-
-// Check if cell has been clicked. If it's not clicked, game can continue
 const onCellClick = function (event) {
 	event.preventDefault()
 	console.log('cell clicked')
-	// store event handler data from user's click into 'clickedCell'
 	const clickedCell = event.target
 	const clickedCellIndex = parseInt(clickedCell.getAttribute('data-cell-index'))
 
@@ -151,7 +124,6 @@ const onCellClick = function (event) {
 		gameBoard.game.cells[clickedCellIndex] = currentPlayer
 	}
 
-	// store data in API
 	authApi
 		.updateGame(
 		clickedCellIndex,
@@ -162,13 +134,12 @@ const onCellClick = function (event) {
 		.catch(() => authUi.onUpdateGameFailure())
 
 	console.log(clickedCellIndex)
-  $('#auth-display').html(currentPlayerTurn())
-	// $('.cell').on('click', onCellClick)
-	// $('.cell').on('click', switchPlayer)
+	$('#auth-display').hide()
+	$('#turn-display').show()
+$('#turn-display').html(currentPlayerTurn())
   findWinner()
 }
 
-// Reset board and player to 'X'
 function onPlayAgain (event) {
   event.preventDefault()
   $('.cell').on('click', onCellClick)
@@ -185,14 +156,12 @@ function onPlayAgain (event) {
   authApi
 		.createGame()
 		.then((response) => authUi.onCreateGameSuccess(response))
-		// if the request/response has an error, run this callback
 		.catch(() => authUi.onCreateGameFailure())
-	$('#auth-display').html(currentPlayerTurn())
+	$('#turn-display').html(currentPlayerTurn())
 	$('.cell').on('click', switchPlayer)
 	findWinner()
 }
 
-// Find winner using conditionals
 function findWinner () {
   let winningRound = false
   console.log('enter win function')
@@ -211,7 +180,6 @@ function findWinner () {
 			authUi.gameOver()
       console.log('O is winner!')
 		break
-      // authUi.onPlayAgain()
     } else if
       (a === b && b === c && a === 'X' && b === 'X' && c === 'X') {
         // eslint-disable-next-line no-unused-vars
@@ -221,14 +189,12 @@ function findWinner () {
         authUi.gameOver()
         console.log('X is winner!')
 		break
-        // authUi.onPlayAgain() //
-      } else if (authUi.checkIfNull(gameBoard.game.cells) === false) {
+      } else if (authUi.checkIfTie(gameBoard.game.cells) === true) {
 		authUi.ifTie()
 		gameOver = true
     	authUi.gameOver()
 		}
 	}
-	// switchPlayer()
 }
 
 module.exports = {
@@ -245,19 +211,3 @@ module.exports = {
 	hideMain,
 	onUpdateGame
 }
-
-// Game Flow Logic
-// 1. Track if a cell has been clicked - event handler
-// 2. Check if user checked an empty box - conditional
-// 3. If user checks already occupied box, nothing should be added.
-// 4. Update the game data for every move. - store data
-// 5. Check the score - has user won or it is a tie. - check current cell picks against winning conditions
-// 6. Display winner or declare a tie. - console.log
-// 7. Stop the game - user can no longer add to board.
-// 8. Give player option to play again or sign out.
-
-// Create Required Variables and Functions
-// Step 1: Set up variables
-// 'player' is player. 'gameBoard' is the empty board represented as an empty array of 9 cells.
-// 'gameStanding' denotes the current game status - if there's a winner/loser or it's a tie.
-// 'continueGame' is a boolean, checks if game should continue or stop
