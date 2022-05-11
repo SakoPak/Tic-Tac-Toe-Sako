@@ -5,13 +5,15 @@ body {
 	margin: 160px auto 20px auto;
 	background-color:rgb(29, 53, 87);
 	color: rgb(241, 250, 238);
-	font-family: 'Rock Salt', cursive;
+	font-family: 'Kadwa',
+	serif;
 	
 }
 
 .welcome {
 	text-align: center;
 	font-size: 40px;
+	font-family: 'Londrina Outline', cursive;
 }
 
 #auth-display {
@@ -46,16 +48,16 @@ form > #sign-up-success {
 
 .container-modal {
  
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: none;
+  position: fixed; 
+  z-index: 1; 
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
   padding: 10px;
 }
 
@@ -116,14 +118,12 @@ form > #sign-up-success {
 
 .game-title {
 	text-align: center;
-	font-family: sans-serif;
-	font-size: 50px;
+	font-size: 100px;
 	margin-bottom: 30px;
 	padding: 20px;
-	font-family: 'Rock Salt', cursive;
+	font-family: 'Londrina Outline',
+	cursive;
 }
-
-
 
 .section {
 	text-align: center;
@@ -162,4 +162,39 @@ form > #sign-up-success {
 }
 .game-container .btn cell:hover {
 	background-color: rgb(168, 218, 220);
+}
+.board-image {
+	text-align: center;
+	justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+	body {
+		margin-top: 0px;
+		padding: 10px;
+	}
+	.game-title {
+		font-size: 60px;
+	}
+	.game-container {
+		margin: auto;
+		width: auto;
+
+	}
+	.game-container .row {
+		text-align: center;
+		justify-content: center;
+	
+	}
+	#auth-display {
+		font-size: 15px;
+		padding: 10px;
+	}
+	.button-pair {
+		display: flex;
+	
+	}
+	.btn .btn-rounded {
+		flex: 1;
+	}
 }

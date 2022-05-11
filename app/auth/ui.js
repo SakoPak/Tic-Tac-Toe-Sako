@@ -33,6 +33,7 @@ const onSignOutSuccess = function () {
   $('#signOut').hide()
   $('#currentGame').hide()
   $('#reset-board').hide()
+  $('#turn-display').hide()
   $('#login-button').show()
   $('.cell').on('click', authEvents.onCellClick)
 }

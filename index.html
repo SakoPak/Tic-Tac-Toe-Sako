@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Tic Tac Toe</title>
+      <title id="title">Tic Tac Toe</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
 
       <!-- Do not add `link` tags-->
@@ -14,12 +14,18 @@
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Londrina+Outline&display=swap" rel="stylesheet">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Kadwa&display=swap" rel="stylesheet">
     </head>
     <body>
 
      
         <!--Trigger Modal-->
-        <button id="login-button" type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">Sign In</button>
+        <button id="login-button" type="button" class="btn btn-info btn-lg" data-bs-toggle="modal" data-bs-target="#myModal">SIGN IN</button>
       
         <!-- Modal -->
   
@@ -80,12 +86,14 @@
       <div data-cell-index="8" class="col-md-4 col-lg-4 cell"></div>
     </div>
   </div>
-    <p class="welcome">Let's Play!</p>
+    <p class="welcome">let's play!</p>
     <section id="turn-display"></section>
     <section id="auth-display"></section>
     <section id="play-again-display"></section>
+  <div class="button-pair">
     <button class="btn btn-rounded" id="reset-board">Play Again</button>
     <button class="btn btn-rounded" id="signOut">Sign Out</button>
+    </div>
   </section>
 
 
