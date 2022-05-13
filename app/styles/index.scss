@@ -1,0 +1,196 @@
+@import '~bootstrap/scss/bootstrap';
+
+body {
+	
+	margin: 160px auto 20px auto;
+	background-color:rgb(29, 53, 87);
+	color: rgb(241, 250, 238);
+	font-family: 'Kadwa',
+	serif;
+	
+}
+
+.welcome {
+	text-align: center;
+	font-size: 40px;
+	font-family: 'Londrina Outline', cursive;
+}
+
+#auth-display {
+	display: block;
+	text-align: center;
+	font-size: 30px;
+}
+
+#auth-display .p {
+	text-align: center;
+	font-size: 30px;
+	padding: 10px;
+}
+
+#turn-display {
+	display: block;
+	text-align: center;
+	font-size: 20px;
+	padding: 10px;
+}
+form {
+	padding: 5px;
+}
+
+form > #sign-in-success {
+	margin: 10px;
+}
+
+form > #sign-up-success {
+	margin: 10px;
+}
+
+.container-modal {
+ 
+  display: none;
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+  padding: 10px;
+}
+
+/* Modal Content */
+.modal-content {
+
+  background-color: rgb(168, 218, 220);
+  margin: auto;
+  padding: 20px;
+  border: px solid rgb(241, 250, 238);
+  width: 100%;
+  color: rgb(69, 123, 157);
+}
+.modal-content .p {
+	text-align: center;
+}
+
+.sign-up-font {
+	font-family: 'Work Sans', sans-serif;
+	font-size: large;
+}
+
+.modal-body > h3 {
+	margin-top: 20px;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.section {
+	margin:auto;
+	border: #aaaaaa;
+}
+.section .p {
+	text-align: center;
+	padding: 30px;
+}
+
+.game-container {
+	
+	display: grid;
+	grid-template-columns: repeat(3, columns);
+	width: 306px;
+	margin: 50px auto;
+}
+
+.game-title {
+	text-align: center;
+	font-size: 100px;
+	margin-bottom: 30px;
+	padding: 20px;
+	font-family: 'Londrina Outline',
+	cursive;
+}
+
+.section {
+	text-align: center;
+}
+
+.game-container .cell:hover {
+	background: rgb(174, 244, 255);
+	
+}
+
+.cell {
+	width: 100px;
+	height: 100px;
+	border: 1px solid #000;
+	transition: all .25s ease-in-out;
+	font-size: 75px;
+	text-align: center;
+	line-height: 100px; 
+	cursor: pointer;
+	font-family: 'Rock Salt', cursive;
+	background-color:rgb(241, 250, 238);
+	color: black;
+}
+
+.btn {
+	width: 200px;
+	font-weight: bold;
+	background-color: rgb(241, 250, 238); 
+	cursor: pointer;
+	font-size: 15px;
+	display: block;
+	margin: 40px auto;
+	-webkit-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 13px 0px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.75);
+}
+.game-container .btn cell:hover {
+	background-color: rgb(168, 218, 220);
+}
+.board-image {
+	text-align: center;
+	justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+	body {
+		margin-top: 0px;
+		padding: 10px;
+	}
+	.game-title {
+		font-size: 60px;
+	}
+
+	.game-container .row {
+		text-align: center;
+		justify-content: center;
+	
+	}
+	#auth-display {
+		font-size: 15px;
+		padding: 10px;
+	}
+	.button-pair {
+		display: flex;
+	
+	}
+	.btn .btn-rounded {
+		flex: 1;
+	}
+}
